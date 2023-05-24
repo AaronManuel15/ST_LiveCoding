@@ -31,13 +31,25 @@ class Bird(Animal):
                 self.rect.bottom = window_height // 2
 
     def fly(self):
-        if self.is_flying:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
+            self.rect.y -= self.speed_fly
+        if keys[pygame.K_DOWN]:
+            self.rect.y += self.speed_fly
+        if keys[pygame.K_LEFT]:
+            self.rect.x -= self.speed_fly
+        if keys[pygame.K_RIGHT]:
             self.rect.x += self.speed_fly
-            if self.rect.left > window_width:
-                self.is_flying = False
-                self.is_walking = True
-                self.rect.bottom = window_height
-                self.rect.left = -self.rect.width
+
+        # Wrap around the screen
+        if self.rect.left > window_width:
+            self.rect.right = 0
+        elif self.rect.right < 0:
+            self.rect.left = window_width
+        if self.rect.top > window_height:
+            self.rect.bottom = 0
+        elif self.rect.bottom < 0:
+            self.rect.top = window_height
 
 
     def draw(self, window):
@@ -78,7 +90,7 @@ white = (255, 255, 255)
 
 # Create objects
 bird = Bird("Flappy", "images/bird_1.png")
-roadrunner = RoadRunner("Beep-Beep", "images/roadrunner.png")
+roadrunner = RoadRunner("Beep-Beep", "images/lilroadrunner.png")
 
 # Game loop
 running = True
