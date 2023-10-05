@@ -3,8 +3,8 @@ import cmd
 import pickle
 
 class CensusDataConsole(cmd.Cmd):
-    intro = "Census Data Storage Console. Type 'help' to see available commands."
-    prompt = "What do you want?: "
+    intro = "\033[1mCensus Data Storage Console. Type 'help' to see available commands.\033[0m"
+    prompt = "\033[1mHow may I help you -____-: \033[0m"
 
     def __init__(self):
         """Bit self explanatory __init__???"""
@@ -14,14 +14,14 @@ class CensusDataConsole(cmd.Cmd):
     def preloop(self):
         """EXAMPLE OF POLYMORPHISM
         Execute before entering the command loop."""
-        print("Welcome to the Census Data Storage Console")
+        print("\033[1mWelcome to the Census Data Storage Console\033[0m")
         self.load_from_pickle("census_data.pickle")
 
     def postloop(self):
         """EXAMPLE OF POLYMORPHISM
         Execute after leaving the command loop."""
         self.do_save_to_pickle("census_data")
-        print("Exiting... Data saved to census_data.pickle")
+        print("\033[1mExiting... Data saved to census_data.pickle\033[0m")
 
     def load_from_pickle(self, filename):
         """Load data from a pickle file if it exists."""
@@ -59,14 +59,15 @@ class CensusDataConsole(cmd.Cmd):
 
     def do_show_data(self, line):
         """Show all census data."""
-        print("From list: \n" + str(self.census_data))
+        print("\n\033[32mFrom list:\033[0m \n" + str(self.census_data))
 
-        print("From pickle file:")
+        print("\n\033[32mFrom pickle file:\033[0m")
         try:
             with open('census_data.pickle', 'rb') as file:
                 data = pickle.load(file)
                 for item in data:
                     print(item)
+                print()
         except FileNotFoundError:
             print(f"File census_data.pickle not found.")
         except Exception as e:
@@ -80,5 +81,5 @@ class CensusDataConsole(cmd.Cmd):
 
 if __name__ == '__main__':
     console = CensusDataConsole()
-    console.doc_header = "Heyooooo this is pretty cool....\nAvailable commands (type help <command>):"
+    console.doc_header = "\033[1mHeyooooo this is pretty cool....\nAvailable commands (type help <command>):\033[0m"
     console.cmdloop()
